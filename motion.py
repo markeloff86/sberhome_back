@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import paho.mqtt.client as mqtt
 import json
+import db_helper
+from datetime import datetime
 
 
 def on_connect(client, userdata, flags, rc):
@@ -27,7 +29,7 @@ try:
         if Current_State == 1 and Previous_State == 0:
             motion = {"motionDetected": True}
             client.publish("motion", json.dumps(motion))
-            # обновить в базе время последнего открытия
+            db_helper.update_challenges("last_update_time", datetime.strftime(datetime.now(), "%H:%M"))
             time.sleep(5)
             Previous_State = 1
         elif Current_State == 0 and Previous_State == 1:
