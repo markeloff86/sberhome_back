@@ -8,7 +8,7 @@ CREATE TABLE challenges (
 	name TEXT NOT NULL,
 	status INTEGER NOT NULL,
 	cost INTEGER NOT NULL,
-	fail_time TEXT NOT NULL
+	fail_time TEXT NOT NULL,
 	last_update_time TEXT NOT NULL
 );
 
