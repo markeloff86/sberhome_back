@@ -2,7 +2,7 @@
 -- @name: название челенджа,
 -- @status:  0 - не активен, 1 - активен
 -- @cost - стоимсоть штрафа
--- @time -  дата последней активации. format: HH:MM
+-- @last_update_time -  дата последней активации. format: HH:MM
 CREATE TABLE challenges (
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
