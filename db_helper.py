@@ -22,6 +22,8 @@ def select_challenges(param):
 
 def update_challenges(param, val):
     conn = create_connection()
-    sql = "UPDATE challenges SET " + param + " = " + val
+    sql = "UPDATE challenges SET " + param + "=" + val
+    print("[DEBUG] - SQL: " + sql)
     cur = conn.cursor()
     cur.execute(sql)
+    conn.commit()

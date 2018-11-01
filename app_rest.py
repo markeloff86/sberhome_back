@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import random
-import sqlite3
 import uuid
 from datetime import datetime, timedelta
-import db_helper as db
 
 import dateutil.parser as parser
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+import db_helper as db
 
 app = Flask(__name__)
 CORS(app)
@@ -26,20 +26,22 @@ def get_info():
 
 
 def get_cash():
-    return [200, 100]
+    return [200, int(db.select_challenges("cash"))]
 
 
 @app.route('/pushNotification', methods=['GET', 'POST'])
 def push_notification():
     if not is_fail():
         return jsonify({})
+    new_cash = int(db.select_challenges("cash")) + int(db.select_challenges("cost"))
+    db.update_challenges("cash", str(new_cash))
     random_uuid = str(uuid.uuid4())
     random_id = random.randint(0, len(get_name()) - 1)
     notification = {
         "id": random_uuid,
-        "name": get_name()[random_id],
-        "info": get_info()[random_id],
-        "cash": str(get_cash()[random_id]) + ' ₽'
+        "name": get_name()[1],
+        "info": get_info()[1],
+        "cash": str(get_cash()[1]) + ' ₽'
     }
     return jsonify(notification=notification)
 
@@ -68,5 +70,5 @@ def is_fail():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.43.150')
-    # app.run(debug=True, host='127.0.0.1')
+    # app.run(debug=True, host='192.168.43.150')
+    app.run(debug=True, host='127.0.0.1')
