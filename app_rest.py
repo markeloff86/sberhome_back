@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import random
-import uuid
 import sqlite3
+import uuid
+from datetime import datetime, timedelta
 
+import dateutil.parser as parser
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -12,7 +14,7 @@ CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 
-def get_last_active(param):
+def get_param_from_db(param):
     conn = sqlite3.connect('main.db')
     cursor = conn.cursor()
     sql = "SELECT " + param + " FROM challenges"
@@ -37,6 +39,8 @@ def get_cash():
 
 @app.route('/pushNotification', methods=['GET', 'POST'])
 def push_notification():
+    if not is_fail():
+        return jsonify({})
     random_uuid = str(uuid.uuid4())
     random_id = random.randint(0, len(get_name()) - 1)
     notification = {
@@ -63,13 +67,14 @@ def get_cli_commands():
     return jsonify(smart_box=boxes_list)
 
 
-@app.route('/checkDate', methods=['GET', 'POST'])
-def date_compare():
-    time_one = get_last_active("last_update_time")
-    time_two = get_last_active("fail_time")
-    return "last_update_time - " + time_two + " | exception time - " + time_one
+def is_fail():
+    last_update_time = get_param_from_db("last_update_time")
+    fail_time = get_param_from_db("fail_time")
+    # если last_update_time > fail_time и last_update_time < 6:00 следующего дня, return true
+    return (parser.parse(last_update_time) > parser.parse(fail_time)) and parser.parse(last_update_time) < parser \
+        .parse(datetime.strftime(datetime.now() + timedelta(days=1), "%Y.%m.%d 06:00:00"))
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.43.150')
-    # app.run(debug=True, host='127.0.0.1')
+    # app.run(debug=True, host='192.168.43.150')
+    app.run(debug=True, host='127.0.0.1')

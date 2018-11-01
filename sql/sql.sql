@@ -1,8 +1,9 @@
 -- Создание таблицы с настройками челенджей
 -- @name: название челенджа,
 -- @status:  0 - не активен, 1 - активен
--- @cost - стоимсоть штрафа
--- @time -  дата последней активации. format: HH:MM:SS
+-- @cost - стоимость штрафа
+-- @fail_time - начало запретного времени (конец - 6:00)
+-- @last_update_time -  дата последней активации. format: HH:MM
 CREATE TABLE challenges (
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
