@@ -36,7 +36,6 @@ def push_notification():
     new_cash = int(db.select_challenges("cash")) + int(db.select_challenges("cost"))
     db.update_challenges("cash", str(new_cash))
     random_uuid = str(uuid.uuid4())
-    random_id = random.randint(0, len(get_name()) - 1)
     notification = {
         "id": random_uuid,
         "name": get_name()[1],
