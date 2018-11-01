@@ -3,7 +3,7 @@
 import random
 import uuid
 
-from flask import Flask, jsonify, json
+from flask import Flask, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -39,11 +39,11 @@ def get_cli_commands():
     try:
         boxes_list = []
         for i in (0, len(get_name()) - 1):
-            empDict = {
+            emp_dict = {
                 'name': get_name()[i],
                 'cash': get_cash()[i],
                 'info': get_info()[i]}
-            boxes_list.append(empDict)
+            boxes_list.append(emp_dict)
     except:
         return "Error read JSON"
     return jsonify(smart_box=boxes_list)
