@@ -1,7 +1,8 @@
 import time
 
 import paho.mqtt.client as mqtt
-import motion
+import RPi.GPIO as GPIO
+import sensor_data
 
 
 def on_connect(client, userdata, flags, rc):
@@ -19,6 +20,15 @@ client.on_message = on_message
 client.username_pw_set("mqtt_client", "sberhack")
 client.connect("192.168.43.150", 1883, 60)
 client.loop_start()
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.cleanup()
 
-while True:
-    client.publish("pi/motion", motion.is_motioned(7))
+try:
+    while True:
+        client.publish("home/sensor_data", sensor_data.get_sensor_data(14))
+        time.sleep(10)
+except KeyboardInterrupt:
+    print("Quit")
+    # Reset GPIO settings
+    GPIO.cleanup()
