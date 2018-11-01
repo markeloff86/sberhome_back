@@ -1,34 +1,31 @@
-import os
-import json
+import uuid
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 CORS(app)
+app.config['JSON_AS_ASCII'] = False
 
 
-def getRecommendationsJsonName():
-    return 'resources/recommendations.json'
+def get_name():
+    return 'Контроль потребления электричества'
 
 
-def createRecommendations(jsonStr):
-    encoder = json.JSONEncoder()
-    with open(getRecommendationsJsonName(), 'w') as recJsonFile:
-        recJsonFile.write(encoder.encode(jsonStr))
-        return recJsonFile
+def get_info():
+    return '5 дней подряд расход электричества не выше среднего'
 
 
-@app.route('/home/v1.0/recommendations')
-def get_motions():
-    jsonRecommendations = createRecommendations({"foo": ["bar", "baz"]})
-    return 'TODO'
+def get_cash():
+    return '0'
 
-@app.route('/getRecommendations',methods=['GET','POST'])
-def getJson():
-    with open(getRecommendationsJsonName(), "r") as blog_file:
-        data = json.load(blog_file)
-    return jsonify(data)
+
+@app.route('/pushRecommendation', methods=['GET', 'POST'])
+def push_recommendation():
+    random_uuid = str(uuid.uuid4())
+    string = {"id": random_uuid, "name": get_name(), "info": get_info(), "cash": get_cash()}
+    return jsonify(string)
+
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1')
+    app.run(debug=True, host='192.168.43.150')
