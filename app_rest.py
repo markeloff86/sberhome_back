@@ -2,6 +2,7 @@
 
 import random
 import uuid
+import sqlite3
 
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -9,6 +10,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
+
+
+def get_last_active(param):
+    conn = sqlite3.connect('main.db')
+    cursor = conn.cursor()
+    sql = "SELECT " + param + " FROM challenges"
+    cursor.execute(sql)
+    print(cursor.fetchone()[0])
+    return cursor.fetchone()[0]
 
 
 # Заглушки. Эмулириют СБОЛ, возвращают название копилки, описание и кол-во денег
@@ -51,6 +61,13 @@ def get_cli_commands():
     except:
         return "Ошибка получения списка умных копилок"
     return jsonify(smart_box=boxes_list)
+
+
+@app.route('/checkDate', methods=['GET', 'POST'])
+def date_compare():
+    time_one = get_last_active("last_update_time")
+    time_two = get_last_active("fail_time")
+    return "last_update_time - " + time_two + " | exception time - " + time_one
 
 
 if __name__ == '__main__':
