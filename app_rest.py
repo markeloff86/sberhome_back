@@ -11,6 +11,7 @@ CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 
+# Заглушки. Эмулириют СБОЛ, возвращают название копилки, описание и кол-во денег
 def get_name():
     return ['Контроль потребления электричества', 'Ограничение ночного холодильника']
 
@@ -21,14 +22,15 @@ def get_info():
 
 
 def get_cash():
-    return ['0','100']
+    return ['0', '100']
 
 
 @app.route('/pushNotification', methods=['GET', 'POST'])
 def push_notification():
     random_uuid = str(uuid.uuid4())
-    random_id = random.randint(0, len(get_name())-1)
-    notification = {"id": random_uuid, "name": get_name()[random_id], "info": get_info()[random_id], "cash": get_cash()[random_id]}
+    random_id = random.randint(0, len(get_name()) - 1)
+    notification = {"id": random_uuid, "name": get_name()[random_id], "info": get_info()[random_id],
+                    "cash": get_cash()[random_id]}
     return jsonify(notification=notification)
 
 
