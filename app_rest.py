@@ -2,7 +2,7 @@
 
 import random
 import uuid
-import sqlite3
+import db_helper as db
 
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -10,32 +10,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
-
-
-def create_connection():
-    try:
-        conn = sqlite3.connect("main.db")
-        return conn
-    except sqlite3.Error as e:
-        print(e)
-    return None
-
-
-def select_challenges(param):
-    sql = "SELECT " + param + " FROM challenges"
-    conn = create_connection()
-    with conn:
-        cur = conn.cursor()
-        cur.execute(sql)
-        answer = cur.fetchone()[0]
-    return answer
-
-
-def update_challenges(param, val):
-    conn = create_connection()
-    sql = "UPDATE challenges SET " + param + " = " + val
-    cur = conn.cursor()
-    cur.execute(sql)
 
 
 # Заглушки. Эмулириют СБОЛ, возвращают название копилки, описание и кол-во денег
@@ -82,8 +56,8 @@ def get_cli_commands():
 
 @app.route('/checkDate', methods=['GET', 'POST'])
 def date_compare():
-    time_one = select_challenges("last_update_time")
-    time_two = select_challenges("fail_time")
+    time_one = db.select_challenges("last_update_time")
+    time_two = db.select_challenges("fail_time")
     return "last_update_time - " + time_two + " | exception time - " + time_one
 
 
