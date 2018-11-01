@@ -4,6 +4,7 @@ import random
 import sqlite3
 import uuid
 from datetime import datetime, timedelta
+import db_helper as db
 
 import dateutil.parser as parser
 from flask import Flask, jsonify
@@ -12,15 +13,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
-
-
-def get_param_from_db(param):
-    conn = sqlite3.connect('main.db')
-    cursor = conn.cursor()
-    sql = "SELECT " + param + " FROM challenges"
-    cursor.execute(sql)
-    print(cursor.fetchone()[0])
-    return cursor.fetchone()[0]
 
 
 # Заглушки. Эмулириют СБОЛ, возвращают название копилки, описание и кол-во денег
@@ -68,13 +60,13 @@ def get_cli_commands():
 
 
 def is_fail():
-    last_update_time = get_param_from_db("last_update_time")
-    fail_time = get_param_from_db("fail_time")
+    last_update_time = db.select_challenges("last_update_time")
+    fail_time = db.select_challenges("fail_time")
     # если last_update_time > fail_time и last_update_time < 6:00 следующего дня, return true
     return (parser.parse(last_update_time) > parser.parse(fail_time)) and parser.parse(last_update_time) < parser \
         .parse(datetime.strftime(datetime.now() + timedelta(days=1), "%Y.%m.%d 06:00:00"))
 
 
 if __name__ == '__main__':
-    # app.run(debug=True, host='192.168.43.150')
-    app.run(debug=True, host='127.0.0.1')
+    app.run(debug=True, host='192.168.43.150')
+    # app.run(debug=True, host='127.0.0.1')
