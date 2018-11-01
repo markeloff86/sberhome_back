@@ -3,7 +3,7 @@ import sqlite3
 
 def create_connection():
     try:
-        conn = sqlite3.connect("main.db")
+        conn = sqlite3.connect("/home/pi/projects/raspberry-pi/main.db")
         return conn
     except sqlite3.Error as e:
         print(e)
@@ -22,7 +22,7 @@ def select_challenges(param):
 
 def update_challenges(param, val):
     conn = create_connection()
-    sql = "UPDATE challenges SET " + param + "=" + val
+    sql = "UPDATE challenges SET " + param + "='" + val + "'"
     print("[DEBUG] - SQL: " + sql)
     cur = conn.cursor()
     cur.execute(sql)
