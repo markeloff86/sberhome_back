@@ -20,11 +20,12 @@ def get_cash():
     return '0'
 
 
-@app.route('/pushRecommendation', methods=['GET', 'POST'])
-def push_recommendation():
+@app.route('/pushNotification', methods=['GET', 'POST'])
+def push_notification():
     random_uuid = str(uuid.uuid4())
-    string = {"id": random_uuid, "name": get_name(), "info": get_info(), "cash": get_cash()}
-    return jsonify(string)
+    notification = {"id": random_uuid, "name": get_name(), "info": get_info(), "cash": get_cash()}
+    map_notification = {'notification': notification}
+    return jsonify(map_notification)
 
 
 if __name__ == '__main__':
