@@ -17,20 +17,24 @@ def get_name():
 
 
 def get_info():
-    return ['5 дней подряд расход электричества не выше среднего',
-            '4 дня подряд без открывния холодильника после ограниченного времени']
+    return ['Потребление электричества выше среднего, откладываем на оплату',
+            'Холодильник был открыт во время запрета, откладываем на тренировки']
 
 
 def get_cash():
-    return ['0', '100']
+    return [200, 100]
 
 
 @app.route('/pushNotification', methods=['GET', 'POST'])
 def push_notification():
     random_uuid = str(uuid.uuid4())
     random_id = random.randint(0, len(get_name()) - 1)
-    notification = {"id": random_uuid, "name": get_name()[random_id], "info": get_info()[random_id],
-                    "cash": get_cash()[random_id]}
+    notification = {
+        "id": random_uuid,
+        "name": get_name()[random_id],
+        "info": get_info()[random_id],
+        "cash": str(get_cash()[random_id]) + ' ₽'
+    }
     return jsonify(notification=notification)
 
 
@@ -41,11 +45,11 @@ def get_cli_commands():
         for i in (0, len(get_name()) - 1):
             emp_dict = {
                 'name': get_name()[i],
-                'cash': get_cash()[i],
-                'info': get_info()[i]}
+                'cash': str(get_cash()[i]) + ' ₽'
+            }
             boxes_list.append(emp_dict)
     except:
-        return "Error read JSON"
+        return "Ошибка получения списка умных копилок"
     return jsonify(smart_box=boxes_list)
 
 
