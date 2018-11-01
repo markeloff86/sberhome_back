@@ -26,7 +26,7 @@ GPIO.cleanup()
 
 try:
     while True:
-        client.publish("home/sensor_data", sensor_data.get_sensor_data(14))
+        client.publish("sensor_data", sensor_data.get_sensor_data(14))
         time.sleep(10)
 except KeyboardInterrupt:
     print("Quit")
