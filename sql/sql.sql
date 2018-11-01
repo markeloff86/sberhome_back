@@ -13,9 +13,9 @@ CREATE TABLE challenges (
 );
 
 -- Заполнение БД
-INSERT INTO challenges(id, name, status, cost, fail_time, last_update_time)
-VALUES (1, "Контроль потребления электричества", 0, 100, "01:00", "23:00");
+--INSERT INTO challenges(id, name, status, cost, fail_time, last_update_time)
+--VALUES (1, "Контроль потребления электричества", 0, 100, "01:00", "23:00");
 
 INSERT INTO challenges(id, name, status, cost, fail_time, last_update_time)
-VALUES (2, "Ограничение ночного холодильника", 1, 100, "23:00", "23:00");
+VALUES (1, "Ограничение ночного холодильника", 1, 100, "23:00", "23:00");
 
