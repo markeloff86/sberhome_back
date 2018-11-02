@@ -64,7 +64,7 @@ def is_fail():
     fail_time = db.select_challenges("fail_time")
     # если last_update_time > fail_time и last_update_time < 6:00 следующего дня, return true
     return (parser.parse(last_update_time) > parser.parse(fail_time)) and parser.parse(last_update_time) < parser \
-        .parse(datetime.strftime(datetime.now() + timedelta(days=1), "%Y.%m.%d 06:00:00"))
+        .parse(datetime.strftime(datetime.now() + timedelta(days=1), "%Y.%m.%d 11:00:00"))
 
 
 if __name__ == '__main__':
