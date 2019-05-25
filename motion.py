@@ -15,7 +15,7 @@ client.on_connect = on_connect
 client.connect("18.223.169.60", 1883, 60)
 client.loop_start()
 GPIO.setmode(GPIO.BCM)
-GPIO_PIR = 4
+GPIO_PIR = 18
 GPIO.setup(GPIO_PIR, GPIO.IN)
 Current_State = 0
 Previous_State = 0
