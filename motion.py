@@ -33,5 +33,5 @@ try:
             Previous_State = 0
         time.sleep(0.01)
 except KeyboardInterrupt:
-    print(" Quit")
+    print("Quit")
     GPIO.cleanup()

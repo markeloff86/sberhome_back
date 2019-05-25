@@ -12,8 +12,8 @@ def on_connect(client, userdata, flags, rc):
 client = mqtt.Client()
 client.on_connect = on_connect
 
-client.username_pw_set("mqtt_client", "sberhack")
-client.connect("192.168.43.150", 1883, 60)
+# client.username_pw_set("mqtt_client", "pass")
+client.connect("18.223.169.60", 1883, 60)
 client.loop_start()
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
