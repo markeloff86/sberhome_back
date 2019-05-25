@@ -7,19 +7,25 @@ import json
 
 def get_humidity_status(value):
     if 40 <= value <= 60:
+        print("DEBUG_HUMIDITY_comfortable: %s", value)
         return "comfortable"
     elif value < 40:
+        print("DEBUG_HUMIDITY_low: %s", value)
         return "low"
     else:
+        print("DEBUG_HUMIDITY_high %s", value)
         return "high"
 
 
 def get_temperature_status(value):
     if 21 <= value <= 26:
+        print("DEBUG_TEMP_comfortable %s", value)
         return "comfortable"
     elif value < 21:
+        print("DEBUG_TEMP_low %s", value)
         return "low"
     else:
+        print("DEBUG_TEMP_high %s", value)
         return "high"
 
 
